@@ -23,6 +23,8 @@ var filteredData = dataSet;
 // renderSearch renders the filter crieteria for Country, Shape and Results per Page
 var countryList = [];
 var shapeList = [];
+var prevPage = 0;
+var nextPage = 0;
 
 function renderSearch()
 {
@@ -68,7 +70,7 @@ function getPagination()
   {
       page_count = Math.ceil(filteredData.length / row_count);
       console.log("pages:" + page_count);
-      $ul.append('li').attr('class', 'page-item disabled').append('a').attr('class','page-link').text('Previous');
+      $ul.append('li').attr('class', 'page-item').append('a').attr('class','page-link').text('Previous');
       
       if (page_count <= 15)
       {
@@ -85,7 +87,7 @@ function getPagination()
         for (i=page_count-10; i<=page_count; i++)
           $ul.append('li').attr('class', 'page-item').append('a').attr('class','page-link').text(i);    
       }    
-      $ul.append('li').attr('class', 'page-item disabled').append('a').attr('class','page-link').text('Next');
+      $ul.append('li').attr('class', 'page-item').append('a').attr('class','page-link').text('Next');
       
   }
   addEvent();
@@ -110,8 +112,26 @@ function myFunction() {
   var row_count = $rpp.value.trim();
   if (!row_count)
     row_count = defaultRowCount;
-   
-  displayData(this.text, row_count)
+  if (this.text == 'Previous')
+  {
+    if (prevPage > 1)
+      displayData(prevPage--, row_count)
+    else if (prevPage == 1)
+      displayData(1, row_count)
+  }
+  else if(this.text == 'Next')
+  {
+    if (nextPage < filteredData.length)
+      displayData(nextPage++, row_count)
+    else if (nextPage == filteredData.length)
+      displayData(filteredData.length, row_count)
+  }
+  else
+  {
+    prevPage = this.text;
+    nextPage = this.text;
+    displayData(this.text, row_count)
+  }
 }
 
 // display data for the selected page
