@@ -25,6 +25,7 @@ var countryList = [];
 var shapeList = [];
 var prevPage = 0;
 var nextPage = 0;
+var page_count = 0;
 
 function renderSearch()
 {
@@ -121,10 +122,10 @@ function myFunction() {
   }
   else if(this.text == 'Next')
   {
-    if (nextPage < filteredData.length)
+    if (nextPage < page_count)
       displayData(nextPage++, row_count)
-    else if (nextPage == filteredData.length)
-      displayData(filteredData.length, row_count)
+    else if (nextPage == page_count)
+      displayData(page_count, row_count)
   }
   else
   {
@@ -147,10 +148,11 @@ function displayData(p, rows) {
   }
   else
   {
-	 alert('Sorry! This is not handled yet.');
+	   alert('Please click on Previous or Next to navigate the pages.');
      console.log('Sorry!! This is not hanlded :( Need some more time.');
      return;
   }
+  
   for (var i = 0; i < data.length; i++) {
     var UFOData = data[i];
     var fields = Object.keys(UFOData);
